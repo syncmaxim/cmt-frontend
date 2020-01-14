@@ -10,24 +10,25 @@ import './index.css';
 const Main = (props) => (
   <div className='main-container'>
     <Switch>
-      <Route exact path='/'>
-        <Redirect to='/calendar' />
-      </Route>
-      <Route exact path='/calendar'>
-        <Calendar/>
-      </Route>
-      <Route exact path='/createEvent'>
-        <CreateEvent/>
-      </Route>
+      <Route exact path='/' component={Calendar} />
+      <PrivateRoute exact path='/createEvent' canActivate={props.isLoggedIn} component={CreateEvent} />
 
-      <Route exact path='/login'>
-        <Login/>
-      </Route>
-      <Route exact path='/registration'>
-        <Registration/>
-      </Route>
+      <Route exact path='/login' component={Login} />
+      <Route exact path='/registration' component={Registration} />
     </Switch>
   </div>
 );
+
+const PrivateRoute = ({component: Component, ...rest}) => {
+  const { canActivate } = {...rest};
+  return (
+        <Route {...rest} render={props => canActivate ?
+            <Component {...props} />
+            :
+            <Redirect to='/login' />
+          }
+        />
+  )
+};
 
 export default Main;

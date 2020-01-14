@@ -1,4 +1,7 @@
 .authorization-container {
+    min-height: inherit;
+    width: 100%;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,7 +15,6 @@
     align-items: center;
 
     width: 100%;
-    height: 600px;
 }
 
 .authorization-card {
@@ -21,5 +23,21 @@
 
 .authorization-controls {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.signup-link {
+    padding: 10px 0;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.signin-link {
+    padding: 10px 0;
+
+    font-size: 14px;
+    font-weight: 600;
 }
