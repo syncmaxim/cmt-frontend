@@ -21,5 +21,14 @@
 
 .authorization-controls {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.signup-link {
+    padding: 10px 0;
+
+    font-size: 14px;
+    font-weight: 600;
 }

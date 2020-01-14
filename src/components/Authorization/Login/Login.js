@@ -1,39 +1,55 @@
 import React from "react";
-import AccentButton from "../../Shared/AccentButton";
+import axios from 'axios';
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import PrimaryButton from "../../Shared/PrimaryButton";
 import TextInput from "../../Shared/TextInput";
+import { signIn } from "../../../redux/actions";
 
-import './index.css'
+import '../index.css'
 
-function onCancelClicked(event) {
-  event.preventDefault();
-  console.log('Cancel clicked');
-}
+const apiUrl = 'http://localhost:4000/auth';
 
-function onSubmitClicked(event) {
-  event.preventDefault();
-  console.log('Submit clicked');
-}
+const Login = (props) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  let state = {
+    email: '',
+    password: ''
+  };
 
-const handleChange = (event) => {
-  const { name, value } = event.target;
-  console.log(name, value);
-};
+  function onSubmitClicked(event) {
+    event.preventDefault();
 
-const Login = (props) => (
-  <div className='authorization-container'>
+    axios.post(`${apiUrl}/login`, {email: state.email, password: state.password})
+      .then(response => {
+        dispatch(signIn(response.data));
+        history.goBack();
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+  }
+
+  const handleChange = (event) => {
+    state = {...state, [event.target.name]: event.target.value};
+  };
+
+  return (
+    <div className='authorization-container'>
       <form>
         <h2> Log in </h2>
         <div className='authorization-card'>
-          <TextInput label='Email' name='email' onChange={handleChange} />
-          <TextInput label='Password' name='password' onChange={handleChange} />
+          <TextInput type='text' label='Email' name='email' onChange={handleChange} />
+          <TextInput type='password' label='Password' name='password' onChange={handleChange} />
           <div className='authorization-controls'>
-            <AccentButton text={'Cancel'} onClick={onCancelClicked} />
-            <PrimaryButton text={'Log In'} onClick={onSubmitClicked} />
+            <PrimaryButton text='Log In' onClick={onSubmitClicked} />
+            <div className='signup-link'> Don't have an account? <Link to='/registration'> Sign up </Link> </div>
           </div>
         </div>
       </form>
-  </div>
-);
+    </div>
+  );
+};
 
 export default Login;
