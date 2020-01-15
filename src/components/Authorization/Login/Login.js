@@ -2,29 +2,49 @@ import React, { useState } from "react";
 import axios from 'axios';
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import PrimaryButton from "../../Shared/PrimaryButton";
-import TextInput from "../../Shared/TextInput";
-import { signIn } from "../../../redux/actions";
+import { Button, TextField } from '@material-ui/core';
+import { openErrorSnackBar, openSuccessSnackBar, signIn } from "../../../redux/actions";
 
-import '../index.css'
+import '../index.css';
 
 const Login = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [formErrors, setFormErrors] = useState({
+    email: false,
+    password: false
+  });
 
   function onLoginSubmit(event) {
     event.preventDefault();
 
-    axios.post(`/auth/login`, {email: email, password: password})
-      .then(response => {
-        dispatch(signIn(response.data));
-        history.goBack();
-      })
-      .catch(error => {
-        console.log(error.response);
+    if (!email) {
+      setFormErrors(prevState => {
+        dispatch(openErrorSnackBar(`There is no email`));
+        return {...prevState, email: true }
       });
+    } else {
+      if (!password) {
+        setFormErrors(prevState => {
+          dispatch(openErrorSnackBar(`Password field is empty`));
+          return {...prevState, password: true }
+        });
+      }
+    }
+
+    if ((email && !formErrors.email) && (password && !formErrors.password)) {
+      axios.post(`/auth/login`, {email: email, password: password})
+        .then(response => {
+          dispatch(signIn(response.data));
+          history.goBack();
+          dispatch(openSuccessSnackBar('Successfully logged in'));
+        })
+        .catch(error => {
+          dispatch(openErrorSnackBar(error.response.data.message));
+        });
+    }
   }
 
   return (
@@ -32,10 +52,14 @@ const Login = (props) => {
       <form>
         <h2> Log in </h2>
         <div className='authorization-card'>
-          <TextInput type='text' label='Email' name='email' onChange={e => setEmail(e.target.value)} />
-          <TextInput type='password' label='Password' name='password' onChange={e => setPassword(e.target.value)} />
+          <div className='form-field'>
+            <TextField error={formErrors.email} name='email' label="Email" onChange={e => {setFormErrors(prevState => ({...prevState, email: false})); setEmail(e.target.value)}} />
+          </div>
+          <div className='form-field'>
+            <TextField error={formErrors.password} name='password' label="Password" type="password" autoComplete="current-password" onChange={e => {setFormErrors(prevState => ({...prevState, password: false})); setPassword(e.target.value)}} />
+          </div>
           <div className='authorization-controls'>
-            <PrimaryButton text='Log In' onClick={onLoginSubmit} />
+            <Button variant="contained" color="primary" onClick={onLoginSubmit}> Log In </Button>
             <div className='signup-link'> Don't have an account? <Link to='/registration'> Sign up </Link> </div>
           </div>
         </div>

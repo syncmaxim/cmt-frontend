@@ -1,9 +1,11 @@
 import { combineReducers } from "redux";
 
-import isLoggedReducer from "./isLogged";
+import authorizationReducer from "./authorizationReducer";
+import snackBarReducer from "./snackBarReducer";
 
 const combinedReducers = combineReducers({
-  isLoggedIn: isLoggedReducer
+  isLoggedIn: authorizationReducer,
+  openSnackBar: snackBarReducer
 });
 
 export default combinedReducers;

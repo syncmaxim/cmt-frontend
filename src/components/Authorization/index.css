@@ -21,11 +21,21 @@
     width: 50%;
 }
 
+.form-field {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .authorization-controls {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+}
+
+.authorization-controls button {
+    width: 100%;
 }
 
 .signup-link {

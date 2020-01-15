@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import './index.css';
 import { useDispatch } from "react-redux";
+import Button from '@material-ui/core/Button';
+import './index.css';
 import { signOut } from "../../redux/actions";
 
 const Header = (props) => {
@@ -16,10 +17,8 @@ const Header = (props) => {
 
   function AuthorizedUserBlock() {
     return (
-      <div className='authorized-user-block'>
-        <button className='authorization-button logout-btn' onClick={handleLogout}>
-          Log out
-        </button>
+      <div className='authorization-block'>
+        <Button onClick={handleLogout}>Log out</Button>
       </div>
     )
   }
@@ -27,9 +26,9 @@ const Header = (props) => {
   function UnauthorizedUserBlock() {
     return (
       <div className='authorization-block'>
-        <button className='authorization-button'>
-          <Link className='menu-item-link login-btn' to='/login'> Log In </Link>
-        </button>
+        <Button onClick={handleLogout}>
+          <Link to='/login' className='login-btn'> Log In </Link>
+        </Button>
       </div>
     )
   }
