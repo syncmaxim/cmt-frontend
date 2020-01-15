@@ -8,8 +8,6 @@ import { signIn } from "../../../redux/actions";
 
 import '../index.css'
 
-const apiUrl = 'http://localhost:4000/auth';
-
 const Login = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -19,7 +17,7 @@ const Login = (props) => {
   function onLoginSubmit(event) {
     event.preventDefault();
 
-    axios.post(`${apiUrl}/login`, {email: email, password: password})
+    axios.post(`/auth/login`, {email: email, password: password})
       .then(response => {
         dispatch(signIn(response.data));
         history.goBack();
