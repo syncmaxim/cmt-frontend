@@ -10,3 +10,23 @@ export const signOut = () => {
     type: 'SIGN_OUT'
   }
 };
+
+export const openSuccessSnackBar = (message) => {
+  return {
+    type: 'SUCCESS_SNACKBAR',
+    payload: message
+  }
+};
+
+export const openErrorSnackBar = (message) => {
+  return {
+    type: 'ERROR_SNACKBAR',
+    payload: message
+  }
+};
+
+export const closeSnackBar = () => {
+  return {
+    type: 'CLOSE_SNACKBAR'
+  }
+};

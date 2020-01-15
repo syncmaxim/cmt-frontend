@@ -4,7 +4,7 @@ function isUserLogged() {
 
 const initialState = isUserLogged();
 
-const isLoggedReducer = (state = initialState, action) => {
+const authorizationReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'SIGN_IN':
       localStorage.setItem('AUTH_TOKEN', action.payload.token);
@@ -13,8 +13,8 @@ const isLoggedReducer = (state = initialState, action) => {
       localStorage.clear();
       return isUserLogged();
     default:
-      return initialState;
+      return state;
   }
 };
 
-export default isLoggedReducer;
+export default authorizationReducer;
