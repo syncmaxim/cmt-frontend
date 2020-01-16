@@ -17,12 +17,14 @@ const Login = (props) => {
     password: false
   });
 
+  const emailValidation = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
+
   function onLoginSubmit(event) {
     event.preventDefault();
 
-    if (!email) {
+    if (!email || emailValidation(email)) {
       setFormErrors(prevState => {
-        dispatch(openErrorSnackBar(`There is no email`));
+        dispatch(openErrorSnackBar(`Invalid email address`));
         return {...prevState, email: true }
       });
     } else {
