@@ -1,0 +1,7 @@
+.calendar-container {
+    min-height: inherit;
+}
+
+.calendar-block {
+    padding: 10px 0;
+}
