@@ -1,0 +1,42 @@
+.create-event-form-block {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.create-event-form {
+    width: 50%;
+    border: 1px solid #c3c3c3;
+    border-radius: 5px;
+
+    padding: 5px 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.create-event-form-field {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.create-event-form-field-actions {
+    padding: 10px 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create-event-form-field-actions button {
+    margin: 0 10px;
+}
+
+.rw-btn-select {
+    vertical-align: unset !important;
+}
+
+.date-time-field {
+    flex-direction: row;
+    justify-content: space-around;
+
+    padding: 10px 0;
+}

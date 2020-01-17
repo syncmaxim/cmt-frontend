@@ -20,3 +20,8 @@ code {
 .app-container {
   min-height: 100vh;
 }
+
+.component-header-one {
+  padding: 20px 0;
+  font-size: 24px;
+}
