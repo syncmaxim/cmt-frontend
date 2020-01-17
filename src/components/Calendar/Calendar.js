@@ -1,25 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './index.css';
+import axios from "axios";
+import { openErrorSnackBar, openSuccessSnackBar } from "../../redux/actions";
+import { useDispatch } from "react-redux";
 
 
 const Calendar = (props) => {
+  const dispatch = useDispatch();
   const localizer = momentLocalizer(moment);
-  const myEventsList = [ // array of events
-    {
-      id: 1,
-      title: 'Test Event',
-      start: new Date(),
-      end: new Date()
-    }
-  ];
+  const [eventsList, setEventsList] = useState([]);
+
+  useEffect(() => {
+    axios.get(`/api/events`)
+      .then(response => {
+        setEventsList(parseDateForCalendar(response.data));
+      })
+      .catch(error => {
+        dispatch(openErrorSnackBar(error.response.data.message));
+      });
+  }, []);
 
   let calendarProps = {
     localizer: localizer,
-    events: myEventsList,
+    events: eventsList,
     startAccessor: 'start',
     endAccessor: 'end',
     style: {
@@ -33,6 +40,18 @@ const Calendar = (props) => {
     console.log(event);
     console.log(e);
   }
+
+  const parseDateForCalendar = date => {
+    const dataToParse = [...date];
+
+    return dataToParse.map(item => {
+      return {
+        ...item,
+        start: new Date(item.start),
+        end: new Date(item.end)
+      }
+    });
+  };
 
   return (
     <div className='calendar-container'>
