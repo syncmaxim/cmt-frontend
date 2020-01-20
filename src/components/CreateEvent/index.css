@@ -2,10 +2,12 @@
     width: 100%;
     display: flex;
     justify-content: center;
+
+    margin-bottom: 20px;
 }
 
 .create-event-form {
-    width: 50%;
+    width: 100%;
     border: 1px solid #c3c3c3;
     border-radius: 5px;
 
@@ -18,6 +20,51 @@
     display: flex;
     flex-direction: column;
     margin: 10px 0;
+}
+
+.create-event-nested-form-field {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+}
+
+.nested-field-header {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.create-event-nested-form-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+.row-field {
+    display: flex;
+    flex-direction: row;
+}
+
+.row-field-one, .row-field-two {
+    width: 50%;
+    display: flex;
+}
+
+.event-place-field, .event-start-field, .event-end-field, .event-address-field {
+    width: 95%;
+}
+
+.row-field-one {
+    justify-content: flex-start;
+}
+
+.row-field-two {
+    justify-content: flex-end;
+}
+
+.nested-form-input {
+    width: 45%;
 }
 
 .create-event-form-field-actions {
