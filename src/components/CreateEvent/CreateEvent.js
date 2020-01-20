@@ -5,7 +5,7 @@ import CreateEventForm from "./CreateEventForm/CreateEventForm";
 import { openErrorSnackBar, openSuccessSnackBar } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 
-const CreateEvent = (props) => {
+const CreateEvent = props => {
   const dispatch = useDispatch();
   const history = useHistory();
   let [startDate, setStartDate] = useState(null);
@@ -19,12 +19,13 @@ const CreateEvent = (props) => {
     description: null
   });
   let [isConfirmDisabled, setIsConfirmDisabled] = useState(true);
+  let [speakers, setSpeakers] = useState([]);
 
   useEffect(() => {
     setIsConfirmDisabled(checkProperties(eventData))
   }, [eventData]);
 
-  const checkProperties = (obj) => {
+  const checkProperties = obj => {
     for (let key in obj) {
       if (obj[key] === null || obj[key] === '')
         return true;
@@ -32,55 +33,83 @@ const CreateEvent = (props) => {
     return false;
   };
 
-  const handleConfirm = (event) => {
+  const checkDateIsValid = obj => !!(obj && (obj.start.getTime() < obj.end.getTime()) && (obj.start.getTime() > new Date().getTime()) && (obj.end.getTime() > new Date().getTime()));
+
+  const handleConfirm = event => {
     event.preventDefault();
 
-    axios.post(`/api/events`, eventData)
-      .then(response => {
-        history.goBack();
-        dispatch(openSuccessSnackBar('Successfully added'));
-      })
-      .catch(error => {
-        dispatch(openErrorSnackBar(error.response.data.message));
-      });
+    if (checkDateIsValid(eventData)) {
+      axios.post(`/api/events`, {...eventData, speakers})
+        .then(response => {
+          history.goBack();
+          dispatch(openSuccessSnackBar('Successfully added'));
+        })
+        .catch(error => {
+          dispatch(openErrorSnackBar(error.response.data.message));
+        });
+    } else {
+      dispatch(openErrorSnackBar('Event start date and event end date is not valid'));
+    }
   };
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     event.preventDefault();
-    let {name, value } = event.target;
+    let { name, value } = event.target;
 
-    setEventData(prevState => {
+    setEventData(prevEventData => {
       return {
-        ...prevState,
+        ...prevEventData,
         [name]: value
       }
     })
   };
 
-  const handleCancel = (event) => {
+  const handleCancel = event => {
     event.preventDefault();
 
     history.goBack();
   };
 
-  const handleStartDateChange = (value) => {
+  const handleStartDateChange = value => {
     setStartDate(value);
-    setEventData(prevState => {
+    setEventData(prevEventData => {
       return {
-        ...prevState,
+        ...prevEventData,
         start: value
       }
     });
   };
 
-  const handleEndDateChange = (value) => {
+  const handleEndDateChange = value => {
     setEndDate(value);
-    setEventData(prevState => {
+    setEventData(prevEventData => {
       return {
-        ...prevState,
+        ...prevEventData,
         end: value
       }
     });
+  };
+
+  const addNewSpeaker = event => {
+    event.preventDefault();
+
+    const speakerData = {
+      fullName: '',
+      presentationTitle: '',
+      from: '',
+      company: ''
+    };
+
+    setSpeakers((prevSpeakers => [...prevSpeakers, speakerData]))
+  };
+
+  const handleSpeakersChange = event => {
+    let { name, value } = event.target;
+    const _tempSpeakers = [...speakers];
+
+    _tempSpeakers[event.target.dataset.id][name] = value;
+
+    setSpeakers(_tempSpeakers);
   };
 
   return (
@@ -92,7 +121,10 @@ const CreateEvent = (props) => {
         handleCancel={ handleCancel }
         handleStartDateChange={ handleStartDateChange }
         handleEndDateChange={ handleEndDateChange }
+        handleSpeakersChange={ handleSpeakersChange }
+        addNewSpeaker={ addNewSpeaker }
         date={{start: startDate, end: endDate}}
+        speakers={speakers}
         isConfirmDisabled={isConfirmDisabled}
       />
     </div>
