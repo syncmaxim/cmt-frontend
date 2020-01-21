@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Button from '@material-ui/core/Button';
 import { TextField } from "@material-ui/core";
-import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import '../index.css';
 import { openErrorSnackBar, openSuccessSnackBar, signIn } from "../../../redux/actions";
+import { signUpApi } from "../../../utils/api/requests";
 
-const Registration = (props) => {
+const Registration = props => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -21,20 +21,16 @@ const Registration = (props) => {
     repeatPassword: false
   });
 
-  const emailValidation = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
+  const emailValidate = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
 
   useEffect(() => {
-    if ((password && repeatPassword) && (password === repeatPassword)) {
-      setIsPasswordsMatches(true);
-    } else {
-      setIsPasswordsMatches(false);
-    }
+    ((password && repeatPassword) && (password === repeatPassword)) ? setIsPasswordsMatches(true) : setIsPasswordsMatches(false);
   }, [password, repeatPassword]);
 
   function onRegisterSubmit(event) {
     event.preventDefault();
 
-    if (!email || emailValidation(email)) {
+    if (!email || emailValidate(email)) {
       setFormErrors(prevState => {
         dispatch(openErrorSnackBar(`Invalid email address`));
         return {...prevState, email: true }
@@ -49,15 +45,13 @@ const Registration = (props) => {
     }
 
     if (!formErrors.email && isPasswordsMatches) {
-      axios.post(`/auth/register`, {email: email, password: password})
+      signUpApi({email: email, password: password})
         .then(response => {
           dispatch(signIn(response.data));
           history.goBack();
           dispatch(openSuccessSnackBar('Successfully registered'));
         })
-        .catch(error => {
-          dispatch(openErrorSnackBar(error.response.data.message));
-        });
+        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
     }
   }
 

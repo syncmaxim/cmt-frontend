@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import axios from 'axios';
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Button, TextField } from '@material-ui/core';
 import { openErrorSnackBar, openSuccessSnackBar, signIn } from "../../../redux/actions";
-
 import '../index.css';
+import { signInApi } from "../../../utils/api/requests";
 
-const Login = (props) => {
+const Login = props => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
@@ -17,12 +16,12 @@ const Login = (props) => {
     password: false
   });
 
-  const emailValidation = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
+  const emailValidate = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
 
   function onLoginSubmit(event) {
     event.preventDefault();
 
-    if (!email || emailValidation(email)) {
+    if (!email || emailValidate(email)) {
       setFormErrors(prevState => {
         dispatch(openErrorSnackBar(`Invalid email address`));
         return {...prevState, email: true }
@@ -37,15 +36,13 @@ const Login = (props) => {
     }
 
     if ((email && !formErrors.email) && (password && !formErrors.password)) {
-      axios.post(`/auth/login`, {email: email, password: password})
+      signInApi({email: email, password: password})
         .then(response => {
           dispatch(signIn(response.data));
           history.goBack();
           dispatch(openSuccessSnackBar('Successfully logged in'));
         })
-        .catch(error => {
-          dispatch(openErrorSnackBar(error.response.data.message));
-        });
+        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
     }
   }
 

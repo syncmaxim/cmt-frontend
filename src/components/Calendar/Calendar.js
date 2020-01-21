@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
-
+import { getEventsApi } from "../../utils/api/requests";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './index.css';
-import axios from "axios";
-import { openErrorSnackBar, openSuccessSnackBar } from "../../redux/actions";
+import { openErrorSnackBar } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 
 
@@ -15,14 +14,10 @@ const Calendar = (props) => {
   const [eventsList, setEventsList] = useState([]);
 
   useEffect(() => {
-    axios.get(`/api/events`)
-      .then(response => {
-        setEventsList(parseDateForCalendar(response.data));
-      })
-      .catch(error => {
-        dispatch(openErrorSnackBar(error.response.data.message));
-      });
-  }, []);
+    getEventsApi()
+      .then(response => setEventsList(parseDateForCalendar(response.data)))
+      .catch(error => dispatch(openErrorSnackBar(error.response.data.message)));
+  }, [dispatch]);
 
   let calendarProps = {
     localizer: localizer,

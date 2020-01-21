@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import CreateEventForm from "./CreateEventForm/CreateEventForm";
 import { openErrorSnackBar, openSuccessSnackBar } from "../../redux/actions";
 import { useDispatch } from "react-redux";
+import { createEventApi } from "../../utils/api/requests";
+import { checkProperties, checkDateIsValid } from "../../utils/helpers";
 
 const CreateEvent = props => {
   const dispatch = useDispatch();
@@ -25,28 +26,17 @@ const CreateEvent = props => {
     setIsConfirmDisabled(checkProperties(eventData))
   }, [eventData]);
 
-  const checkProperties = obj => {
-    for (let key in obj) {
-      if (obj[key] === null || obj[key] === '')
-        return true;
-    }
-    return false;
-  };
-
-  const checkDateIsValid = obj => !!(obj && (obj.start.getTime() < obj.end.getTime()) && (obj.start.getTime() > new Date().getTime()) && (obj.end.getTime() > new Date().getTime()));
 
   const handleConfirm = event => {
     event.preventDefault();
 
     if (checkDateIsValid(eventData)) {
-      axios.post(`/api/events`, {...eventData, speakers})
+      createEventApi({...eventData, speakers})
         .then(response => {
           history.goBack();
           dispatch(openSuccessSnackBar('Successfully added'));
         })
-        .catch(error => {
-          dispatch(openErrorSnackBar(error.response.data.message));
-        });
+        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)));
     } else {
       dispatch(openErrorSnackBar('Event start date and event end date is not valid'));
     }
