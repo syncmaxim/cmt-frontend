@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Link } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import Button from '@material-ui/core/Button';
@@ -9,11 +9,12 @@ const Header = (props) => {
   const dispatch = useDispatch();
   const isLoggedIn = props.isLoggedIn;
 
-  function handleLogout(event) {
+  const handleLogout = useCallback((event) => {
     event.preventDefault();
 
     dispatch(signOut());
-  }
+  },[dispatch]);
+
 
   function AuthorizedUserBlock() {
     return (

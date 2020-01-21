@@ -1,32 +1,22 @@
-export const signIn = (user) => {
-  return {
-    type: 'SIGN_IN',
-    payload: user
-  }
-};
+export const signIn = (user) => ({
+  type: 'SIGN_IN',
+  payload: user
+});
 
-export const signOut = () => {
-  return {
-    type: 'SIGN_OUT'
-  }
-};
+export const signOut = () => ({
+  type: 'SIGN_OUT'
+});
 
-export const openSuccessSnackBar = (message) => {
-  return {
-    type: 'SUCCESS_SNACKBAR',
-    payload: message
-  }
-};
+export const openSuccessSnackBar = (message) => ({
+  type: 'SUCCESS_SNACKBAR',
+  payload: message
+});
 
-export const openErrorSnackBar = (message) => {
-  return {
-    type: 'ERROR_SNACKBAR',
-    payload: message
-  }
-};
+export const openErrorSnackBar = (message) => ({
+  type: 'ERROR_SNACKBAR',
+  payload: message
+});
 
-export const closeSnackBar = () => {
-  return {
-    type: 'CLOSE_SNACKBAR'
-  }
-};
+export const closeSnackBar = () => ({
+  type: 'CLOSE_SNACKBAR'
+});
