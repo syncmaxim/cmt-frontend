@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Button from '@material-ui/core/Button';
 import { TextField } from "@material-ui/core";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useLastLocation } from "react-router-last-location";
 import '../index.css';
-import { openErrorSnackBar, openSuccessSnackBar, signIn } from "../../../redux/actions";
-import { signUpApi } from "../../../utils/api/requests";
+import { openErrorSnackBar, signUp } from "../../../redux/actions";
+import { emailValidate } from "../../../utils/helpers";
 
 const Registration = props => {
-  const history = useHistory();
   const dispatch = useDispatch();
-
+  const lastLocation = useLastLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
@@ -20,8 +20,6 @@ const Registration = props => {
     password: false,
     repeatPassword: false
   });
-
-  const emailValidate = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
 
   useEffect(() => {
     ((password && repeatPassword) && (password === repeatPassword)) ? setIsPasswordsMatches(true) : setIsPasswordsMatches(false);
@@ -45,13 +43,7 @@ const Registration = props => {
     }
 
     if (!formErrors.email && isPasswordsMatches) {
-      signUpApi({email: email, password: password})
-        .then(response => {
-          dispatch(signIn(response.data));
-          history.goBack();
-          dispatch(openSuccessSnackBar('Successfully registered'));
-        })
-        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
+      dispatch(signUp({email: email, password: password}, lastLocation, props));
     }
   }
 

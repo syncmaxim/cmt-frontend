@@ -15,7 +15,7 @@ import './index.css';
 const Main = (props) => {
   const dispatch = useDispatch();
 
-  const openSnackBar = useSelector(state => state.openSnackBar);
+  const snackBar = useSelector(state => state.snackBar);
 
   const handleClose = (event, reason) => dispatch(closeSnackBar());
 
@@ -28,8 +28,8 @@ const Main = (props) => {
         <Route exact path='/login' component={Login} />
         <Route exact path='/registration' component={Registration} />
       </Switch>
-      <Snackbar open={openSnackBar.active} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity={openSnackBar.status}> {openSnackBar.message} </Alert>
+      <Snackbar open={snackBar.active} autoHideDuration={4000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={snackBar.status}> {snackBar.message} </Alert>
       </Snackbar>
     </div>
   );
