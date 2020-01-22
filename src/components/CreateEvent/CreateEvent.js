@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useLastLocation } from "react-router-last-location";
 import CreateEventForm from "./CreateEventForm/CreateEventForm";
-import { openErrorSnackBar, openSuccessSnackBar } from "../../redux/actions";
+import { createEvent, openErrorSnackBar } from "../../redux/actions";
 import { useDispatch } from "react-redux";
-import { createEventApi } from "../../utils/api/requests";
 import { checkProperties, checkDateIsValid } from "../../utils/helpers";
 
 const CreateEvent = props => {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const lastLocation = useLastLocation();
   let [startDate, setStartDate] = useState(null);
   let [endDate, setEndDate] = useState(null);
   let [eventData, setEventData] = useState({
@@ -30,16 +29,12 @@ const CreateEvent = props => {
   const handleConfirm = event => {
     event.preventDefault();
 
-    if (checkDateIsValid(eventData)) {
-      createEventApi({...eventData, speakers})
-        .then(response => {
-          history.goBack();
-          dispatch(openSuccessSnackBar('Successfully added'));
-        })
-        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)));
-    } else {
+    if (!checkDateIsValid(eventData)) {
       dispatch(openErrorSnackBar('Event start date and event end date is not valid'));
+      return;
     }
+
+    dispatch(createEvent({...eventData, speakers}))
   };
 
   const handleChange = event => {
@@ -56,8 +51,7 @@ const CreateEvent = props => {
 
   const handleCancel = event => {
     event.preventDefault();
-
-    history.goBack();
+    lastLocation ? props.history.push(lastLocation.pathname) : props.history.push('/');
   };
 
   const handleStartDateChange = value => {

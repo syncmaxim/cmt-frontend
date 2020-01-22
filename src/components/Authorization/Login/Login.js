@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Button, TextField } from '@material-ui/core';
-import { openErrorSnackBar, openSuccessSnackBar, signIn } from "../../../redux/actions";
+import { useLastLocation } from "react-router-last-location";
+import { openErrorSnackBar, signIn } from "../../../redux/actions";
 import '../index.css';
-import { signInApi } from "../../../utils/api/requests";
+import { emailValidate } from "../../../utils/helpers";
 
 const Login = props => {
-  const history = useHistory();
   const dispatch = useDispatch();
+  const lastLocation = useLastLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState({
     email: false,
     password: false
   });
-
-  const emailValidate = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
 
   function onLoginSubmit(event) {
     event.preventDefault();
@@ -36,13 +35,7 @@ const Login = props => {
     }
 
     if ((email && !formErrors.email) && (password && !formErrors.password)) {
-      signInApi({email: email, password: password})
-        .then(response => {
-          dispatch(signIn(response.data));
-          history.goBack();
-          dispatch(openSuccessSnackBar('Successfully logged in'));
-        })
-        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
+      dispatch(signIn({email: email, password: password}, lastLocation, props))
     }
   }
 
