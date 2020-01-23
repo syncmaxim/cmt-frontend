@@ -1,72 +1,71 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from '@material-ui/core/Button';
 import { TextField } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useLastLocation } from "react-router-last-location";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 import '../index.css';
 import { openErrorSnackBar, signUp } from "../../../redux/actions";
 import { emailValidate } from "../../../utils/helpers";
+import ErrorHandler from "../../shared/ErrorHandler/ErrorHandler";
 
 const Registration = props => {
   const dispatch = useDispatch();
   const lastLocation = useLastLocation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [repeatPassword, setRepeatPassword] = useState('');
-  const [isPasswordsMatches, setIsPasswordsMatches] = useState(false);
-  const [formErrors, setFormErrors] = useState({
-    email: false,
-    password: false,
-    repeatPassword: false
-  });
+  const [isPassMatchError, setIsPassMatchError] = useState(false);
 
-  useEffect(() => {
-    ((password && repeatPassword) && (password === repeatPassword)) ? setIsPasswordsMatches(true) : setIsPasswordsMatches(false);
-  }, [password, repeatPassword]);
+  const handleErrors = (values) => {
+    const errors = {};
+    setIsPassMatchError(false);
 
-  function onRegisterSubmit(event) {
-    event.preventDefault();
+    if (!values.email) errors.email = 'Email address is required';
+    if (!values.password) errors.password = 'Password is required';
 
-    if (!email || emailValidate(email)) {
-      setFormErrors(prevState => {
-        dispatch(openErrorSnackBar(`Invalid email address`));
-        return {...prevState, email: true }
-      });
-    } else {
-      if (!isPasswordsMatches) {
-        setFormErrors(prevState => {
-          dispatch(openErrorSnackBar(`Passwords doesn't match`));
-          return {...prevState, password: true, repeatPassword: true }
-        });
-      }
-    }
+    if (emailValidate(values.email)) errors.email = 'Invalid email address';
 
-    if (!formErrors.email && isPasswordsMatches) {
-      dispatch(signUp({email: email, password: password}, lastLocation, props));
-    }
-  }
+    return errors;
+  };
 
   return (
     <div className='authorization-container'>
-      <form>
         <h2> Sign up </h2>
-        <div className='authorization-card'>
-          <div className='form-field'>
-            <TextField error={formErrors.email} name='email' label="Email" type='email' onChange={e => {setFormErrors(prevState => ({...prevState, email: false})); setEmail(e.target.value)}} />
-          </div>
-          <div className='form-field'>
-            <TextField error={formErrors.password} name='password' label="Password" type="password" autoComplete="current-password" onChange={e => {setFormErrors(prevState => ({...prevState, password: false})); setPassword(e.target.value)}} />
-          </div>
-          <div className='form-field'>
-            <TextField error={formErrors.repeatPassword} name='repeat-password' label="Repeat password" type="password" autoComplete="current-password" onChange={e => {setFormErrors(prevState => ({...prevState, repeatPassword: false})); setRepeatPassword(e.target.value)}}/>
-          </div>
-          <div className='authorization-controls'>
-            <Button variant="contained" color="primary" onClick={onRegisterSubmit}> Sign Up </Button>
-            <div className='signup-link'> Already have an account? <Link to='/login'> Sign in </Link> </div>
-          </div>
-        </div>
-      </form>
+        <Formik
+          initialValues={{ email: '', password: '', repeatPassword: '' }}
+          validate={values => handleErrors(values)}
+          onSubmit={data => {
+            if (data.password !== data.repeatPassword) {
+              setIsPassMatchError(true);
+              dispatch(openErrorSnackBar(`Passwords doesn't match`));
+              return;
+            }
+
+            dispatch(signUp({email: data.email, password: data.password}, lastLocation, props));
+          }}
+        >
+          {({ handleSubmit, errors, touched }) => (
+            <Form onSubmit={handleSubmit}>
+              <div className='authorization-card'>
+                <div className='form-field'>
+                  <Field error={touched.email && !!errors.email} type="email" name="email" label="Email" as={TextField} />
+                  <ErrorMessage name="email" component={ErrorHandler} />
+                </div>
+                <div className='form-field'>
+                  <Field error={(touched.password && !!errors.password) || isPassMatchError} type="password" name="password" label="Password" as={TextField} />
+                  <ErrorMessage name="password" component={ErrorHandler} />
+                </div>
+                <div className='form-field'>
+                  <Field error={(touched.repeatPassword && !!errors.repeatPassword) || isPassMatchError} type="password" name="repeatPassword" label="Repeat password" as={TextField} />
+                  <ErrorMessage name="repeatPassword" component={ErrorHandler} />
+                </div>
+                <div className='authorization-controls'>
+                  <Button variant="contained" color="primary" type="submit"> Sign Up </Button>
+                  <div className='signup-link'> Already have an account? <Link to='/login'> Sign in </Link> </div>
+                </div>
+              </div>
+            </Form>
+          )}
+        </Formik>
     </div>
   );
 };

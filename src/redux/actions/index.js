@@ -11,7 +11,11 @@ export const signIn = (data, lastLocation, props) => dispatch => {
           type: TYPE.SIGN_IN,
           payload: response.data
         });
-      lastLocation ? props.history.push(lastLocation.pathname) : props.history.push('/');
+      if (lastLocation) {
+        lastLocation.pathname === '/registration' ? props.history.push('/') : props.history.push(lastLocation.pathname);
+      } else {
+        props.history.push('/');
+      }
       dispatch(openSuccessSnackBar('Successfully logged in'));
     })
     .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
@@ -24,7 +28,11 @@ export const signUp = (data, lastLocation, props) => dispatch => {
         type: TYPE.SIGN_IN,
         payload: response.data
       });
-      lastLocation ? props.history.push(lastLocation.pathname) : props.history.push('/');
+      if (lastLocation) {
+        lastLocation.pathname === '/login' ? props.history.push('/') : props.history.push(lastLocation.pathname);
+      } else {
+        props.history.push('/');
+      }
       dispatch(openSuccessSnackBar('Successfully registered'));
     })
     .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
