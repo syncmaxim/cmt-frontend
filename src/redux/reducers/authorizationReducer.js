@@ -1,13 +1,13 @@
-import { clearAuthData, getAuthToken, saveAuthToken } from "../../utils/helpers/auth";
+import { clearAuthData, getIsAuthTokenExists, saveAuthToken } from "../../utils/helpers/auth";
 import * as TYPE from '../actions/types';
 
-const initialState = getAuthToken();
+const initialState = getIsAuthTokenExists();
 
 const authorizationReducer = (state = initialState, action) => {
   switch (action.type) {
     case TYPE.SIGN_IN:
       saveAuthToken(action.payload.token);
-      return getAuthToken();
+      return getIsAuthTokenExists();
     case TYPE.SIGN_OUT:
       return clearAuthData();
     default:

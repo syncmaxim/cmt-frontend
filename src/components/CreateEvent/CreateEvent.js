@@ -20,6 +20,7 @@ const CreateEvent = props => {
   });
   let [isConfirmDisabled, setIsConfirmDisabled] = useState(true);
   let [speakers, setSpeakers] = useState([]);
+  let eventFormRef = React.createRef();
 
   useEffect(() => {
     setIsConfirmDisabled(checkProperties(eventData))
@@ -34,7 +35,9 @@ const CreateEvent = props => {
       return;
     }
 
-    dispatch(createEvent({...eventData, speakers}))
+    dispatch(createEvent({...eventData, speakers}));
+
+    eventFormRef.current.reset(); // remove array of speakers
   };
 
   const handleChange = event => {
@@ -51,7 +54,7 @@ const CreateEvent = props => {
 
   const handleCancel = event => {
     event.preventDefault();
-    lastLocation ? props.history.push(lastLocation.pathname) : props.history.push('/');
+    (lastLocation.pathname === '/registration' || lastLocation.pathname === '/login') ? props.history.push('/') : props.history.push(lastLocation.pathname);
   };
 
   const handleStartDateChange = value => {
@@ -80,7 +83,6 @@ const CreateEvent = props => {
     const speakerData = {
       fullName: '',
       presentationTitle: '',
-      from: '',
       company: ''
     };
 
@@ -96,15 +98,23 @@ const CreateEvent = props => {
     setSpeakers(_tempSpeakers);
   };
 
+  const handleDeleteSpeaker = index => {
+    const _tempSpeakers = [...speakers];
+    _tempSpeakers.splice(index, 1);
+    setSpeakers(_tempSpeakers);
+  };
+
   return (
     <div className='create-event-container'>
       <div className='component-header-one'> Create Event </div>
       <CreateEventForm
+        eventFormRef={eventFormRef}
         handleConfirm={ handleConfirm }
         handleChange={ handleChange }
         handleCancel={ handleCancel }
         handleStartDateChange={ handleStartDateChange }
         handleEndDateChange={ handleEndDateChange }
+        handleDeleteSpeaker={ handleDeleteSpeaker }
         handleSpeakersChange={ handleSpeakersChange }
         addNewSpeaker={ addNewSpeaker }
         date={{start: startDate, end: endDate}}
