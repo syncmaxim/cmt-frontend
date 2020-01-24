@@ -1,5 +1,6 @@
 import React from "react";
 import { TextField, Button } from '@material-ui/core';
+import { Delete } from '@material-ui/icons';
 import { DateTimePicker } from 'react-widgets';
 import momentLocalizer from 'react-widgets-moment';
 import moment from 'moment';
@@ -13,7 +14,7 @@ const CreateEventForm = props => {
 
   return (
     <div className='create-event-form-block'>
-      <form className='create-event-form' onSubmit={props.handleConfirm}>
+      <form className='create-event-form' onSubmit={props.handleConfirm} ref={props.eventFormRef}>
         <div className='create-event-form-field'>
           <TextField required name='title' label="Event title" variant="outlined" size='small' onChange={props.handleChange} />
         </div>
@@ -43,14 +44,16 @@ const CreateEventForm = props => {
           {
             props.speakers.map((item, index) => (
               <div className='create-event-nested-form-field' key={index}>
-                <div className='nested-field-header'> Speaker <b>#{index + 1}</b> </div>
-                <div className='create-event-nested-form-group'>
-                  <TextField className='nested-form-input' inputProps={{'data-id': `${index}`}} name='fullName' size='small' label="Speaker Full Name" variant="outlined" onChange={props.handleSpeakersChange} />
-                  <TextField className='nested-form-input' inputProps={{'data-id': `${index}`}} name='presentationTitle' size='small' label="Presentation Title" variant="outlined" onChange={props.handleSpeakersChange} />
+                <div className='nested-field-header'>
+                  <div> Speaker <b>#{index + 1}</b> </div>
+                  <div className='deleteIcon' onClick={() => props.handleDeleteSpeaker(index)}> <Delete/> </div>
                 </div>
                 <div className='create-event-nested-form-group'>
-                  <TextField className='nested-form-input' inputProps={{'data-id': `${index}`}} name='from' size='small' label="From what place speaker is?" variant="outlined" onChange={props.handleSpeakersChange} />
-                  <TextField className='nested-form-input' inputProps={{'data-id': `${index}`}} name='company' size='small' label="From what company speaker is?" variant="outlined" onChange={props.handleSpeakersChange} />
+                  <TextField className='nested-form-input presentation-title' inputProps={{'data-id': `${index}`}} name='presentationTitle' size='small' label="Presentation Title" variant="outlined" onChange={props.handleSpeakersChange} />
+                </div>
+                <div className='create-event-nested-form-group'>
+                  <TextField className='nested-form-input' inputProps={{'data-id': `${index}`}} name='fullName' size='small' label="Full Name" variant="outlined" onChange={props.handleSpeakersChange} />
+                  <TextField className='nested-form-input' inputProps={{'data-id': `${index}`}} name='company' size='small' label="Company" variant="outlined" onChange={props.handleSpeakersChange} />
                 </div>
               </div>
             ))

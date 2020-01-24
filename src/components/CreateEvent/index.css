@@ -20,6 +20,7 @@
     display: flex;
     flex-direction: column;
     margin: 10px 0;
+    padding: 5px 0;
 }
 
 .create-event-nested-form-field {
@@ -30,8 +31,21 @@
 }
 
 .nested-field-header {
+    width: 95%;
+
     font-size: 16px;
     font-weight: 500;
+
+    padding: 5px 0;
+
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nested-field-header .deleteIcon:hover {
+    cursor: pointer;
 }
 
 .create-event-nested-form-group {
@@ -67,6 +81,10 @@
     width: 45%;
 }
 
+.presentation-title {
+    width: 95%;
+}
+
 .create-event-form-field-actions {
     padding: 10px 0;
     display: flex;
@@ -84,6 +102,4 @@
 .date-time-field {
     flex-direction: row;
     justify-content: space-around;
-
-    padding: 10px 0;
 }

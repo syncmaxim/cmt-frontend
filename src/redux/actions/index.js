@@ -12,7 +12,7 @@ export const signIn = (data, lastLocation, props) => dispatch => {
           payload: response.data
         });
       if (lastLocation) {
-        lastLocation.pathname === '/registration' ? props.history.push('/') : props.history.push(lastLocation.pathname);
+        (lastLocation.pathname === '/registration' || lastLocation.pathname === '/login') ? props.history.push('/') : props.history.push(lastLocation.pathname);
       } else {
         props.history.push('/');
       }
@@ -29,7 +29,7 @@ export const signUp = (data, lastLocation, props) => dispatch => {
         payload: response.data
       });
       if (lastLocation) {
-        lastLocation.pathname === '/login' ? props.history.push('/') : props.history.push(lastLocation.pathname);
+        (lastLocation.pathname === '/registration' || lastLocation.pathname === '/login') ? props.history.push('/') : props.history.push(lastLocation.pathname);
       } else {
         props.history.push('/');
       }
