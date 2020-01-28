@@ -5,9 +5,8 @@ import { Button } from '@material-ui/core';
 import moment from 'moment';
 
 const styles = {
-  eventDialogBlock: {
-    display: 'flex',
-    justifyContent: 'space-around'
+  dialogContentTextHead: {
+    fontWeight: '500'
   }
 };
 
@@ -17,33 +16,29 @@ const CalendarDialog = props => {
   startDate = props.event.start || new Date();
   endDate = props.event.end || new Date();
 
-  startFullDate = moment(startDate).format('LL');
-  endFullDate = moment(endDate).format('LL');
+  startFullDate = moment(startDate).format('LLL');
+  endFullDate = moment(endDate).format('LLL');
 
   return (
     <Dialog onClose={props.onClose} open={props.open} maxWidth='md' fullWidth={true}>
       <DialogTitle>{props.event.title}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {props.event.description}
+          <span style={styles.dialogContentTextHead}>About:</span> {props.event.description}
         </DialogContentText>
         <DialogContentText>
-          {props.event.place}
+          <span style={styles.dialogContentTextHead}>Where:</span> {props.event.address}, {props.event.place}
         </DialogContentText>
         <DialogContentText>
-          {props.event.address}
-        </DialogContentText>
-        <DialogContentText style={styles.eventDialogBlock}>
-          <span>Event Start: { startFullDate }</span>
-          <span>Event End: { endFullDate }</span>
+          <span style={styles.dialogContentTextHead}>When:</span> { startFullDate } - { endFullDate }
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={props.onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={props.onClose} color="primary" autoFocus>
-          Read More ...
+        <Button onClick={() => props.handleReadMore(props.event._id)} color="primary" autoFocus>
+          Read More
         </Button>
       </DialogActions>
     </Dialog>
@@ -57,6 +52,7 @@ CalendarDialog.defaultProps = {
 
 CalendarDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
+  handleReadMore: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   event: PropTypes.shape({
     _id: PropTypes.string,
