@@ -11,13 +11,7 @@ const styles = {
 };
 
 const CalendarDialog = props => {
-  let startFullDate, endFullDate, startDate, endDate;
-
-  startDate = props.event.start || new Date();
-  endDate = props.event.end || new Date();
-
-  startFullDate = moment(startDate).format('LLL');
-  endFullDate = moment(endDate).format('LLL');
+  let startFullDate = moment(props.event.start || new Date()).format('LLL');
 
   return (
     <Dialog onClose={props.onClose} open={props.open} maxWidth='md' fullWidth={true}>
@@ -30,7 +24,7 @@ const CalendarDialog = props => {
           <span style={styles.dialogContentTextHead}>Where:</span> {props.event.address}, {props.event.place}
         </DialogContentText>
         <DialogContentText>
-          <span style={styles.dialogContentTextHead}>When:</span> { startFullDate } - { endFullDate }
+          <span style={styles.dialogContentTextHead}>When:</span> { startFullDate }
         </DialogContentText>
       </DialogContent>
       <DialogActions>

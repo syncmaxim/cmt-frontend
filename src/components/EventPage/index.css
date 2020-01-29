@@ -1,0 +1,74 @@
+.event-page-container {
+    min-height: inherit;
+}
+
+.event-page-header {
+    height: 30vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.event-page-header-text {
+    font-size: 5vw;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.event-page-main-block {
+    display: flex;
+    min-height: 50vh;
+}
+
+.event-page-main {
+    flex-grow: 3;
+    padding: 10px 0;
+}
+
+.event-main-row {
+    margin-bottom: 10px;
+}
+
+.event-main-row-header {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.event-main-row-content {
+    font-size: 14px;
+    font-weight: 400;
+    padding: 10px 0;
+}
+
+.speakers-list {
+    display: flex;
+    justify-content: space-around;
+
+    flex-wrap: wrap;
+}
+
+.event-page-sidebar {
+    flex-grow: 1;
+    padding: 10px;
+
+    width: 100vw;
+}
+
+.event-sidebar-date-field {
+    padding: 15px 0;
+}
+
+.event-sidebar-start, .event-sidebar-end {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 5px;
+}
+
+.event-sidebar-attendance {
+    display: flex;
+    flex-direction: column;
+}
+
+
