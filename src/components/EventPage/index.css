@@ -22,7 +22,7 @@
 }
 
 .event-page-main {
-    flex-grow: 3;
+    width: 75%;
     padding: 10px 0;
 }
 
@@ -49,10 +49,9 @@
 }
 
 .event-page-sidebar {
-    flex-grow: 1;
     padding: 10px;
 
-    width: 100vw;
+    width: 25%;
 }
 
 .event-sidebar-date-field {

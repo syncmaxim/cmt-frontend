@@ -37,7 +37,23 @@ const CreateEvent = props => {
 
     dispatch(createEvent({...eventData, speakers}));
 
-    eventFormRef.current.reset(); // remove array of speakers
+    resetFormData(); // change this function [rebuild]
+  };
+
+  const resetFormData = () => {
+    eventFormRef.current.reset();
+    setEventData({
+      title: null,
+      start: null,
+      end: null,
+      place: null,
+      address: null,
+      description: null
+    });
+    setStartDate(null);
+    setEndDate(null);
+    setSpeakers([]);
+    setIsConfirmDisabled(true);
   };
 
   const handleChange = event => {
@@ -54,7 +70,11 @@ const CreateEvent = props => {
 
   const handleCancel = event => {
     event.preventDefault();
-    (lastLocation.pathname === '/registration' || lastLocation.pathname === '/login') ? props.history.push('/') : props.history.push(lastLocation.pathname);
+    if (lastLocation) {
+      (lastLocation.pathname === '/registration' || lastLocation.pathname === '/login') ? props.history.push('/') : props.history.push(lastLocation.pathname);
+    } else {
+      props.history.push('/');
+    }
   };
 
   const handleStartDateChange = value => {

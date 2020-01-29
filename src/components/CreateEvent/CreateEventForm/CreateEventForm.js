@@ -20,10 +20,10 @@ const CreateEventForm = props => {
         </div>
         <div className='create-event-form-field date-time-field'>
           <div className='row-field-one'>
-            <DateTimePicker className='event-start-field' name='start' placeholder='Event start date and time' variant="outlined" size='small' value={props.date.start} onChange={props.handleStartDateChange} />
+            <DateTimePicker className='event-start-field' name='start' placeholder='Event start date and time *' variant="outlined" size='small' value={props.date.start} onChange={props.handleStartDateChange} />
           </div>
           <div className='row-field-two'>
-            <DateTimePicker className='event-end-field' name='end' placeholder='Event end date and time' variant="outlined" size='small' value={props.date.end} onChange={props.handleEndDateChange} />
+            <DateTimePicker className='event-end-field' name='end' placeholder='Event end date and time *' variant="outlined" size='small' value={props.date.end} onChange={props.handleEndDateChange} />
           </div>
         </div>
         <div className='create-event-form-field row-field'>
