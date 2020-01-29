@@ -8,7 +8,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import '../index.css';
 import { openErrorSnackBar, signUp } from "../../../redux/actions";
 import { emailValidate } from "../../../utils/helpers";
-import ErrorHandler from "../../shared/ErrorHandler/ErrorHandler";
+import ErrorHandler from "../../Shared/ErrorHandler/ErrorHandler";
 
 const Registration = props => {
   const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import * as TYPE from "./types";
-import { createEventApi, getEventsApi, signInApi, signUpApi } from "../../utils/api/requests";
+import {createEventApi, getEventApi, getEventsApi, signInApi, signUpApi} from "../../utils/api/requests";
 import { parseDateToCalendar } from "../../utils/helpers";
 
 // Auth actions
@@ -66,9 +66,11 @@ export const getEvents = () => dispatch => {
     .catch(error => dispatch(openErrorSnackBar(error.response.data.message)));
 };
 
-export const getEvent = () => ({
-  type: TYPE.GET_EVENT
-});
+export const getEvent = (id) => dispatch => {
+  getEventApi(id)
+      .then(response => dispatch({type: TYPE.GET_EVENT, payload: response.data}))
+      .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
+};
 
 export const createEvent = (data) => dispatch => {
   createEventApi(data)

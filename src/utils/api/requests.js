@@ -8,3 +8,4 @@ export const signUpApi = (data) => api.post(PATH.SIGN_UP_PATH, data);
 // events
 export const getEventsApi = () => api.get(PATH.EVENTS_PATH);
 export const createEventApi = (data) => api.post(PATH.EVENTS_PATH, data);
+export const getEventApi = (id) => api.get(`${PATH.EVENTS_PATH}/${id}`);

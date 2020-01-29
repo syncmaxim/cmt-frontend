@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useDispatch, useSelector } from "react-redux";
+import EventPage from '../EventPage/EventPage';
 import Calendar from "../Calendar/Calendar";
 import CreateEvent from "../CreateEvent/CreateEvent";
 import Login from "../Authorization/Login/Login";
@@ -22,6 +23,7 @@ const Main = (props) => {
   return (
     <div className='main-container'>
       <Switch>
+        <Route exact path='/event/:id' component={EventPage} />
         <Route exact path='/' component={Calendar} />
         <PrivateRoute exact path='/createEvent' canActivate={props.isLoggedIn} component={CreateEvent} />
 
