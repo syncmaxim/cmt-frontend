@@ -16,11 +16,7 @@ const EventPageSidebar = (props) => {
             <div className='event-sidebar-attendance'>
                 <Button variant="outlined" color="primary"> I will attend </Button>
                 <div>
-                    <ul>
-                        <li> Lorem ipsum </li>
-                        <li> Lorem ipsum </li>
-                        <li> Lorem ipsum </li>
-                    </ul>
+                    {/* Here is going to be list of attenders */}
                 </div>
             </div>
         </div>
