@@ -14,7 +14,7 @@ const EventPageSidebar = (props) => {
                 <div className='event-sidebar-end'> <span>End:</span> <span>{endFullDate}</span> </div>
             </div>
             <div className='event-sidebar-attendance'>
-                <Button variant="outlined" color="primary"> I will attend </Button>
+                <Button variant="outlined" color="primary" onClick={props.handleAttend}> I will attend </Button>
                 <div>
                     {/* Here is going to be list of attenders */}
                 </div>
