@@ -42,7 +42,7 @@ const EventSpeakers = (props) => {
             </div>
             <div style={styles.speakerInfoBlock}>
                 <div style={styles.speakerPresentationTitle}>{props.speaker.presentationTitle}</div>
-                <div style={styles.speakerName}>{props.speaker.fullName}</div>
+                <div style={styles.speakerName}>{props.speaker.fullName}, {props.speaker.company}</div>
             </div>
         </div>
     )
@@ -57,18 +57,22 @@ const EventPageMain = props => {
                 <div className='event-main-row-header'> Description </div>
                 <div className='event-main-row-content'> {description} </div>
             </div>
-            <div className='event-main-row'>
-                <div className='event-main-row-header'> Speakers </div>
-                <div className='event-main-row-content speakers-list'>
-                    {
-                        speakers && speakers.map(speaker => {
-                            return (
-                                <EventSpeakers key={speaker._id} speaker={speaker} />
-                            )
-                        })
-                    }
-                </div>
-            </div>
+            {
+                (speakers && speakers.length !== 0) ? (
+                    <div className='event-main-row'>
+                        <div className='event-main-row-header'> Speakers </div>
+                        <div className='event-main-row-content speakers-list'>
+                            {
+                                speakers.map(speaker => {
+                                    return (
+                                        <EventSpeakers key={speaker._id} speaker={speaker} />
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                ) : null
+            }
             <div className='event-main-row'>
                 <div className='event-main-row-header'> Address </div>
                 <div className='event-main-row-content'> {address} </div>

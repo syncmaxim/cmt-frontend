@@ -45,20 +45,15 @@ const Calendar = props => {
   };
 
   // this is check if array. If array - we can display, else - object - we can't display.
-  // try to check if an object in func parseDateToCalendar
-  if (events.length) {
-    return (
-        <div className='calendar-container'>
-          <div className='component-header-one'> Events List </div>
-          <div className='calendar-block'>
-            <BigCalendar {...calendarProps} />
-            <CalendarDialog event={event} open={isDialogOpened} onClose={handleClose} handleReadMore={handleReadMore} />
-          </div>
+  return (
+      <div className='calendar-container'>
+        <div className='component-header-one'> Events List </div>
+        <div className='calendar-block'>
+          { events.length ? <BigCalendar {...calendarProps} /> : <BigCalendar {...calendarProps} events={[]} /> }
+          <CalendarDialog event={event} open={isDialogOpened} onClose={handleClose} handleReadMore={handleReadMore} />
         </div>
-    );
-  } else {
-    return null;
-  }
+      </div>
+  );
 };
 
 export default Calendar;
