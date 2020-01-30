@@ -84,12 +84,13 @@ export const createEvent = (data, props) => dispatch => {
     });
 };
 
-export const attendEvent = (id) => dispatch => { // add dispatch
+export const attendEvent = (id) => dispatch => {
     attendEventApi(id)
         .then(response => {
-            console.log(response);
+            dispatch({type: TYPE.ATTEND_EVENT, payload: response.data});
+            dispatch(openSuccessSnackBar('You was marked as an attendee'));
         })
         .catch(error => {
-            console.log(error);
+            dispatch(openErrorSnackBar(error.response.data.message))
         })
 };

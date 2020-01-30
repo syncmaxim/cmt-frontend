@@ -14,3 +14,4 @@ export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 export const GET_EVENTS = 'GET_EVENTS';
 export const GET_EVENT = 'GET_EVENT';
 export const CREATE_EVENT = 'CREATE_EVENT';
+export const ATTEND_EVENT = 'ATTEND_EVENT';
