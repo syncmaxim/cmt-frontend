@@ -12,6 +12,8 @@ const eventsReducer = (state = initialState, action) => {
       return state; // need to return previous state to prevent undefined error
     case TYPE.ATTEND_EVENT:
       return action.payload;
+    case TYPE.CANCEL_ATTEND_EVENT:
+      return action.payload;
     default:
       return state;
   }

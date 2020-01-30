@@ -8,6 +8,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    margin: 20px 0;
 }
 
 .event-page-header-text {
@@ -19,6 +21,7 @@
 .event-page-main-block {
     display: flex;
     min-height: 50vh;
+    background-color: #f2f2f2;
 }
 
 .event-page-main {

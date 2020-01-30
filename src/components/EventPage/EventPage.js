@@ -1,32 +1,34 @@
 import React, { useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import {useDispatch, useSelector} from "react-redux";
-import {attendEvent, getEvent} from "../../redux/actions";
+import {attendEvent, cancelAttendEvent, getEvent} from "../../redux/actions";
 import EventPageHeader from "./EventPageHeader/EventPageHeader";
 import EventPageMain from "./EventPageMain/EventPageMain";
 import EventPageSidebar from "./EventPageSidebar/EventPageSidebar";
 
 import './index.css';
+import {getUserId} from "../../utils/helpers/auth";
 
 const EventPage = props => {
     const event = useSelector(state => state.events);
     const dispatch = useDispatch();
     const { id } = useParams();
+    const userId = getUserId();
 
     useEffect(() => {
         dispatch(getEvent(id));
     }, [dispatch, id]);
 
-    const handleAttend = () => {
-        dispatch(attendEvent(id))
+    const handleAttend = (action) => {
+        action.status ? dispatch(attendEvent(id)) : dispatch(cancelAttendEvent(id))
     };
 
     return (
         <div className='event-page-container'>
             <EventPageHeader title={event.title} />
             <div className='event-page-main-block'>
-                <EventPageMain event={event} />
-                <EventPageSidebar event={event} handleAttend={handleAttend}/>
+                <EventPageMain event={event} userId={userId}/>
+                <EventPageSidebar event={event} userId={userId} handleAttend={handleAttend}/>
             </div>
         </div>
     );
