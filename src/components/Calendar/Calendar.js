@@ -40,7 +40,7 @@ const Calendar = props => {
     setDialogOpened(false);
   };
 
-  const handleReadMore = id => {
+  const handleLearnMore = id => {
     props.history.push(`/event/${id}`)
   };
 
@@ -50,7 +50,7 @@ const Calendar = props => {
         <div className='component-header-one'> Events List </div>
         <div className='calendar-block'>
           { events.length ? <BigCalendar {...calendarProps} /> : <BigCalendar {...calendarProps} events={[]} /> }
-          <CalendarDialog event={event} open={isDialogOpened} onClose={handleClose} handleReadMore={handleReadMore} />
+          <CalendarDialog event={event} open={isDialogOpened} onClose={handleClose} handleLearnMore={handleLearnMore} />
         </div>
       </div>
   );

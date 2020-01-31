@@ -1,5 +1,8 @@
 .event-page-container {
     min-height: inherit;
+
+    letter-spacing: 2px;
+    word-spacing: 2px;
 }
 
 .event-page-header {
@@ -8,6 +11,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    margin: 10px 0;
 }
 
 .event-page-header-text {
@@ -22,8 +27,10 @@
 }
 
 .event-page-main {
-    width: 75%;
-    padding: 10px 0;
+    width: 70%;
+    padding: 10px 10px;
+    margin-right: 10px;
+    background-color: #f2f2f2;
 }
 
 .event-main-row {
@@ -31,14 +38,15 @@
 }
 
 .event-main-row-header {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
+    padding: 10px 0;
 }
 
 .event-main-row-content {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
-    padding: 10px 0;
+    text-indent: 1em;
 }
 
 .speakers-list {
@@ -49,25 +57,22 @@
 }
 
 .event-page-sidebar {
+    width: 30%;
     padding: 10px;
+    margin-left: 10px;
 
-    width: 25%;
+    background-color: #f2f2f2;
 }
 
-.event-sidebar-date-field {
-    padding: 15px 0;
-}
-
-.event-sidebar-start, .event-sidebar-end {
-    display: flex;
-    justify-content: space-between;
-
-    margin-bottom: 5px;
+.event-sidebar-field {
+    padding: 10px 0;
 }
 
 .event-sidebar-attendance {
     display: flex;
     flex-direction: column;
+
+    padding: 10px 0;
 }
 
 

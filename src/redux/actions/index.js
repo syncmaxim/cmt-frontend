@@ -1,5 +1,13 @@
 import * as TYPE from "./types";
-import {createEventApi, getEventApi, getEventsApi, signInApi, signUpApi} from "../../utils/api/requests";
+import {
+    createEventApi,
+    getEventApi,
+    getEventsApi,
+    signInApi,
+    signUpApi,
+    attendEventApi,
+    cancelEventApi
+} from "../../utils/api/requests";
 import { parseDateToCalendar } from "../../utils/helpers";
 
 // Auth actions
@@ -72,13 +80,36 @@ export const getEvent = (id) => dispatch => {
       .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
 };
 
-export const createEvent = (data) => dispatch => {
+export const createEvent = (data, props) => dispatch => {
   createEventApi(data)
     .then(response => {
       dispatch({type: TYPE.CREATE_EVENT});
       dispatch(openSuccessSnackBar('Successfully added'));
+      props.history.push('/');
     })
     .catch(error => {
       dispatch(openErrorSnackBar(error.response.data.message))
     });
+};
+
+export const attendEvent = (id) => dispatch => {
+    attendEventApi(id)
+        .then(response => {
+            dispatch({type: TYPE.ATTEND_EVENT, payload: response.data});
+            dispatch(openSuccessSnackBar('You was marked as an attendee'));
+        })
+        .catch(error => {
+            dispatch(openErrorSnackBar(error.response.data.message))
+        })
+};
+
+export const cancelAttendEvent = (id) => dispatch => {
+    cancelEventApi(id)
+        .then(response => {
+            dispatch({type: TYPE.CANCEL_ATTEND_EVENT, payload: response.data});
+            dispatch(openSuccessSnackBar('You successfully canceled your attendance :('));
+        })
+        .catch(error => {
+            dispatch(openErrorSnackBar(error.response.data.message))
+        })
 };

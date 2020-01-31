@@ -35,25 +35,7 @@ const CreateEvent = props => {
       return;
     }
 
-    dispatch(createEvent({...eventData, speakers}));
-
-    resetFormData(); // change this function [rebuild]
-  };
-
-  const resetFormData = () => {
-    eventFormRef.current.reset();
-    setEventData({
-      title: null,
-      start: null,
-      end: null,
-      place: null,
-      address: null,
-      description: null
-    });
-    setStartDate(null);
-    setEndDate(null);
-    setSpeakers([]);
-    setIsConfirmDisabled(true);
+    dispatch(createEvent({...eventData, speakers}, props));
   };
 
   const handleChange = event => {
