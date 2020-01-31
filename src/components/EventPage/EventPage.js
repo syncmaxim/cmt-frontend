@@ -7,13 +7,13 @@ import EventPageMain from "./EventPageMain/EventPageMain";
 import EventPageSidebar from "./EventPageSidebar/EventPageSidebar";
 
 import './index.css';
-import {getIsAuthTokenExists, getUserId} from "../../utils/helpers/auth";
+import {getIsAuthTokenExists} from "../../utils/helpers/auth";
 
 const EventPage = props => {
     const event = useSelector(state => state.events);
+    const userData = useSelector(state => state.user);
     const dispatch = useDispatch();
     const { id } = useParams();
-    const userId = getUserId();
 
     useEffect(() => {
         dispatch(getEvent(id));
@@ -32,8 +32,8 @@ const EventPage = props => {
         <div className='event-page-container'>
             <EventPageHeader title={event.title} />
             <div className='event-page-main-block'>
-                <EventPageMain event={event} userId={userId}/>
-                <EventPageSidebar event={event} userId={userId} handleAttend={handleAttend}/>
+                <EventPageMain event={event} />
+                <EventPageSidebar userData={userData} event={event} handleAttend={handleAttend}/>
             </div>
         </div>
     );

@@ -3,5 +3,8 @@
 export const SIGN_IN_PATH = '/auth/login';
 export const SIGN_UP_PATH = '/auth/register';
 
-//events
+// events
 export const EVENTS_PATH = '/api/events';
+
+// user
+export const USERS_PATH = '/api/users';

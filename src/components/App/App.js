@@ -5,10 +5,11 @@ import Main from '../Main/Main';
 
 function App() {
   const isLoggedIn = useSelector(state => state.authorization.isLoggedIn);
+  const userData = useSelector(state => state.user);
 
   return (
     <div className='app-container'>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header isLoggedIn={isLoggedIn} userData={userData} />
       <Main isLoggedIn={isLoggedIn} />
     </div>
   );

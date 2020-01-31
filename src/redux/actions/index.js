@@ -6,7 +6,8 @@ import {
     signInApi,
     signUpApi,
     attendEventApi,
-    cancelEventApi
+    cancelEventApi,
+    getUserInfoApi
 } from "../../utils/api/requests";
 import { parseDateToCalendar } from "../../utils/helpers";
 
@@ -19,6 +20,7 @@ export const signIn = (data, lastLocation, props) => dispatch => {
           type: TYPE.SIGN_IN,
           payload: response.data
         });
+        dispatch(getUserInfo());
       if (lastLocation) {
         (lastLocation.pathname === '/registration' || lastLocation.pathname === '/login') ? props.history.push('/') : props.history.push(lastLocation.pathname);
       } else {
@@ -36,6 +38,7 @@ export const signUp = (data, lastLocation, props) => dispatch => {
         type: TYPE.SIGN_IN,
         payload: response.data
       });
+      dispatch(getUserInfo());
       if (lastLocation) {
         (lastLocation.pathname === '/registration' || lastLocation.pathname === '/login') ? props.history.push('/') : props.history.push(lastLocation.pathname);
       } else {
@@ -108,6 +111,18 @@ export const cancelAttendEvent = (id) => dispatch => {
         .then(response => {
             dispatch({type: TYPE.CANCEL_ATTEND_EVENT, payload: response.data});
             dispatch(openSuccessSnackBar('You successfully canceled your attendance :('));
+        })
+        .catch(error => {
+            dispatch(openErrorSnackBar(error.response.data.message))
+        })
+};
+
+// User actions
+
+export const getUserInfo = () => dispatch => {
+    getUserInfoApi()
+        .then(response => {
+            dispatch({type: TYPE.GET_USER_INFO, payload: response.data});
         })
         .catch(error => {
             dispatch(openErrorSnackBar(error.response.data.message))

@@ -16,3 +16,7 @@ export const GET_EVENT = 'GET_EVENT';
 export const CREATE_EVENT = 'CREATE_EVENT';
 export const ATTEND_EVENT = 'ATTEND_EVENT';
 export const CANCEL_ATTEND_EVENT = 'CANCEL_ATTEND_EVENT';
+
+// User
+
+export const GET_USER_INFO = 'GET_USER_INFO';

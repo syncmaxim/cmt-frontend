@@ -8,6 +8,7 @@ import Calendar from "../Calendar/Calendar";
 import CreateEvent from "../CreateEvent/CreateEvent";
 import Login from "../Authorization/Login/Login";
 import Registration from "../Authorization/Registration/Registration";
+import Profile from "../Profile/Profile";
 import { closeSnackBar } from "../../redux/actions";
 
 import './index.css';
@@ -23,6 +24,7 @@ const Main = (props) => {
   return (
     <div className='main-container'>
       <Switch>
+        <Route exact path='/user/:id' component={Profile} />
         <Route exact path='/event/:id' component={EventPage} />
         <Route exact path='/' component={Calendar} />
         <PrivateRoute exact path='/createEvent' canActivate={props.isLoggedIn} component={CreateEvent} />
