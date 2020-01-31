@@ -73,14 +73,6 @@ const EventPageMain = props => {
                     </div>
                 ) : null
             }
-            {/*<div className='event-main-row'>*/}
-                {/*<div className='event-main-row-header'> Address </div>*/}
-                {/*<div className='event-main-row-content'> {address} </div>*/}
-            {/*</div>*/}
-            {/*<div className='event-main-row'>*/}
-                {/*<div className='event-main-row-header'> Place </div>*/}
-                {/*<div className='event-main-row-content'> {place} </div>*/}
-            {/*</div>*/}
         </div>
     );
 };

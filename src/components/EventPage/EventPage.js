@@ -7,7 +7,7 @@ import EventPageMain from "./EventPageMain/EventPageMain";
 import EventPageSidebar from "./EventPageSidebar/EventPageSidebar";
 
 import './index.css';
-import {getUserId} from "../../utils/helpers/auth";
+import {getIsAuthTokenExists, getUserId} from "../../utils/helpers/auth";
 
 const EventPage = props => {
     const event = useSelector(state => state.events);
@@ -20,6 +20,11 @@ const EventPage = props => {
     }, [dispatch, id]);
 
     const handleAttend = (action) => {
+        if (!getIsAuthTokenExists().isLoggedIn) {
+            props.history.push('/login');
+            return;
+        }
+
         action.status ? dispatch(attendEvent(id)) : dispatch(cancelAttendEvent(id))
     };
 

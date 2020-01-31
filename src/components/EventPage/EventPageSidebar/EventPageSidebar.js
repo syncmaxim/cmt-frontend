@@ -27,12 +27,12 @@ const EventPageSidebar = (props) => {
     return (
         <div className='event-page-sidebar'>
             <div className='event-sidebar-field'>
-                <div>When:</div>
-                <div> {startFullDate} - {endFullDate} </div>
+                <div style={{fontWeight: '600'}}>When:</div>
+                <div style={{fontSize: '14px'}}> {startFullDate} - {endFullDate} </div>
             </div>
             <div className='event-sidebar-field'>
-                <div>Where:</div>
-                <div> {place}, {address} </div>
+                <div style={{fontWeight: '600'}}>Where:</div>
+                <div style={{fontSize: '14px'}}> {place}, {address} </div>
             </div>
             <div className='event-sidebar-attendance'>
                 <AttendButton attenders={attenders} userId={props.userId} handleAttend={props.handleAttend} />
