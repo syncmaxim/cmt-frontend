@@ -16,9 +16,7 @@ import './index.css';
 
 const Main = (props) => {
   const dispatch = useDispatch();
-
   const snackBar = useSelector(state => state.snackBar);
-  const userData = useSelector(state => state.user);
 
   const handleClose = (event, reason) => dispatch(closeSnackBar());
 
@@ -28,7 +26,7 @@ const Main = (props) => {
         <Route exact path='/event/:id' component={EventPage} />
         <Route exact path='/' component={Calendar} />
         <PrivateRoute exact path='/createEvent' canActivate={props.isLoggedIn} component={CreateEvent} />
-        <PrivateRoute exact path='/profile/:id' canActivate={props.isLoggedIn} component={Profile} /> // TODO: MATCH USERID WITH PARAMID
+        <PrivateRoute exact path='/profile' canActivate={props.isLoggedIn} component={Profile} />
 
         <Route exact path='/login' component={Login} />
         <Route exact path='/registration' component={Registration} />
@@ -42,6 +40,7 @@ const Main = (props) => {
 
 const PrivateRoute = ({component: Component, ...rest}) => {
   const { canActivate } = {...rest};
+
   return (
         <Route {...rest} render={props => canActivate ?
             <Component {...props} />

@@ -34,7 +34,7 @@ const Header = (props) => {
 
   const handleMyPageRedirect = () => {
     setAnchorEl(null);
-    history.push(`/profile/${props.userData.id}`);
+    history.push(`/profile`);
   };
 
   function UnauthorizedUserBlock() {
