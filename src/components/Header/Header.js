@@ -34,7 +34,7 @@ const Header = (props) => {
 
   const handleMyPageRedirect = () => {
     setAnchorEl(null);
-    history.push(`/user/${props.userData.id}`);
+    history.push(`/profile/${props.userData.id}`);
   };
 
   function UnauthorizedUserBlock() {
@@ -69,8 +69,8 @@ const Header = (props) => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
               >
-                <MenuItem style={{width: '120px'}} onClick={handleMyPageRedirect}> My page </MenuItem>
-                <MenuItem style={{width: '120px'}} onClick={handleLogout}> Log out </MenuItem>
+                <MenuItem style={{width: '150px'}} onClick={handleMyPageRedirect}> My page </MenuItem>
+                <MenuItem style={{width: '150px'}} onClick={handleLogout}> Log out </MenuItem>
               </Menu>
             </div>
             ) : <UnauthorizedUserBlock/> }

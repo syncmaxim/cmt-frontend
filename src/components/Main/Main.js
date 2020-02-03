@@ -18,16 +18,17 @@ const Main = (props) => {
   const dispatch = useDispatch();
 
   const snackBar = useSelector(state => state.snackBar);
+  const userData = useSelector(state => state.user);
 
   const handleClose = (event, reason) => dispatch(closeSnackBar());
 
   return (
     <div className='main-container'>
       <Switch>
-        <Route exact path='/user/:id' component={Profile} />
         <Route exact path='/event/:id' component={EventPage} />
         <Route exact path='/' component={Calendar} />
         <PrivateRoute exact path='/createEvent' canActivate={props.isLoggedIn} component={CreateEvent} />
+        <PrivateRoute exact path='/profile/:id' canActivate={props.isLoggedIn} component={Profile} /> // TODO: MATCH USERID WITH PARAMID
 
         <Route exact path='/login' component={Login} />
         <Route exact path='/registration' component={Registration} />
