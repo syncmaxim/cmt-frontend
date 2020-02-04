@@ -1,4 +1,4 @@
-import * as TYPE from "./types";
+import * as TYPE from './types';
 import {
     createEventApi,
     getEventApi,
@@ -6,9 +6,11 @@ import {
     signInApi,
     signUpApi,
     attendEventApi,
-    cancelEventApi
-} from "../../utils/api/requests";
-import { parseDateToCalendar } from "../../utils/helpers";
+    cancelEventApi,
+    getUserInfoApi, changeUserPasswordApi, changeUserEmailApi
+} from '../../utils/api/requests';
+import { parseDateToCalendar } from '../../utils/helpers';
+import {saveAuthToken} from "../../utils/helpers/auth";
 
 // Auth actions
 
@@ -19,6 +21,7 @@ export const signIn = (data, lastLocation, props) => dispatch => {
           type: TYPE.SIGN_IN,
           payload: response.data
         });
+        dispatch(getUserInfo());
       if (lastLocation) {
         (lastLocation.pathname === '/registration' || lastLocation.pathname === '/login') ? props.history.push('/') : props.history.push(lastLocation.pathname);
       } else {
@@ -36,6 +39,7 @@ export const signUp = (data, lastLocation, props) => dispatch => {
         type: TYPE.SIGN_IN,
         payload: response.data
       });
+      dispatch(getUserInfo());
       if (lastLocation) {
         (lastLocation.pathname === '/registration' || lastLocation.pathname === '/login') ? props.history.push('/') : props.history.push(lastLocation.pathname);
       } else {
@@ -80,7 +84,7 @@ export const getEvent = (id) => dispatch => {
       .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
 };
 
-export const createEvent = (data, props) => dispatch => {
+export const createEvent = (data, props) => dispatch => { // TODO: ADD RESPONSE FROM SERVER
   createEventApi(data)
     .then(response => {
       dispatch({type: TYPE.CREATE_EVENT});
@@ -108,6 +112,46 @@ export const cancelAttendEvent = (id) => dispatch => {
         .then(response => {
             dispatch({type: TYPE.CANCEL_ATTEND_EVENT, payload: response.data});
             dispatch(openSuccessSnackBar('You successfully canceled your attendance :('));
+        })
+        .catch(error => {
+            dispatch(openErrorSnackBar(error.response.data.message))
+        })
+};
+
+// User actions
+
+export const getUserInfo = () => dispatch => {
+    getUserInfoApi()
+        .then(response => {
+            dispatch({type: TYPE.GET_USER_INFO, payload: response.data});
+        })
+        .catch(error => {
+            dispatch(openErrorSnackBar(error.response.data.message))
+        })
+};
+
+// Profile actions
+
+export const changeUserPassword = (data, handleClick) => dispatch => {
+    changeUserPasswordApi(data)
+        .then(response => {
+            dispatch({type: TYPE.CHANGE_PASSWORD, payload: response.data});
+            dispatch(openSuccessSnackBar(response.data.message));
+            handleClick();
+        })
+        .catch(error => {
+            dispatch(openErrorSnackBar(error.response.data.message))
+        })
+};
+
+export const changeUserEmail = (data, handleClick) => dispatch => {
+    changeUserEmailApi(data)
+        .then(response => {
+            dispatch({type: TYPE.CHANGE_EMAIL, payload: response.data});
+            dispatch(openSuccessSnackBar(response.data.message));
+            saveAuthToken(response.data.token);
+            dispatch(getUserInfo());
+            handleClick();
         })
         .catch(error => {
             dispatch(openErrorSnackBar(error.response.data.message))

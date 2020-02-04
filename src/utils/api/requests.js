@@ -11,3 +11,12 @@ export const createEventApi = (data) => api.post(PATH.EVENTS_PATH, data);
 export const getEventApi = (id) => api.get(`${PATH.EVENTS_PATH}/${id}`);
 export const attendEventApi = (id) => api.put(`${PATH.EVENTS_PATH}/attend/${id}`);
 export const cancelEventApi = (id) => api.put(`${PATH.EVENTS_PATH}/attend/cancel/${id}`);
+
+// user
+
+export const getUserInfoApi = () => api.get(`${PATH.USERS_PATH}/user-info`);
+
+// profile
+
+export const changeUserPasswordApi = (data) => api.put(`${PATH.USERS_PATH}/change-password`, data);
+export const changeUserEmailApi = (data) => api.put(`${PATH.USERS_PATH}/change-email`, data);

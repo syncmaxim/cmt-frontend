@@ -8,6 +8,7 @@ import Calendar from "../Calendar/Calendar";
 import CreateEvent from "../CreateEvent/CreateEvent";
 import Login from "../Authorization/Login/Login";
 import Registration from "../Authorization/Registration/Registration";
+import Profile from "../Profile/Profile";
 import { closeSnackBar } from "../../redux/actions";
 
 import './index.css';
@@ -15,7 +16,6 @@ import './index.css';
 
 const Main = (props) => {
   const dispatch = useDispatch();
-
   const snackBar = useSelector(state => state.snackBar);
 
   const handleClose = (event, reason) => dispatch(closeSnackBar());
@@ -26,6 +26,7 @@ const Main = (props) => {
         <Route exact path='/event/:id' component={EventPage} />
         <Route exact path='/' component={Calendar} />
         <PrivateRoute exact path='/createEvent' canActivate={props.isLoggedIn} component={CreateEvent} />
+        <PrivateRoute exact path='/profile' canActivate={props.isLoggedIn} component={Profile} />
 
         <Route exact path='/login' component={Login} />
         <Route exact path='/registration' component={Registration} />
@@ -39,6 +40,7 @@ const Main = (props) => {
 
 const PrivateRoute = ({component: Component, ...rest}) => {
   const { canActivate } = {...rest};
+
   return (
         <Route {...rest} render={props => canActivate ?
             <Component {...props} />
