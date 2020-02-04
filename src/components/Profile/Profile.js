@@ -1,13 +1,15 @@
 import React from 'react';
 import { List, ListItem, ListItemText, Collapse, IconButton, ListItemSecondaryAction } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import ProfileEditForm from "./ProfileEditForm/ProfileEditForm";
 
 import './index.css';
+import {changeUserEmail, changeUserPassword} from "../../redux/actions";
 
 const Profile = (props) => {
     const userData = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
     const [open, setOpen] = React.useState({
         email: false,
@@ -28,7 +30,13 @@ const Profile = (props) => {
     };
 
     const handleSubmit = (purpose, values) => {
-      console.log(purpose, values);
+      if (purpose === 'email') {
+          dispatch(changeUserEmail(values, () => handleClick(purpose)));
+      }
+
+      if (purpose === 'password') {
+          dispatch(changeUserPassword(values, () => handleClick(purpose)));
+      }
     };
 
     return (

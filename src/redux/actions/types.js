@@ -20,3 +20,8 @@ export const CANCEL_ATTEND_EVENT = 'CANCEL_ATTEND_EVENT';
 // User
 
 export const GET_USER_INFO = 'GET_USER_INFO';
+
+// Profile
+
+export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+export const CHANGE_EMAIL = 'CHANGE_EMAIL';
