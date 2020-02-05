@@ -35,7 +35,7 @@ const EventPageSidebar = (props) => {
                 <div style={{fontSize: '14px'}}> {place}, {address} </div>
             </div>
             <div className='event-sidebar-attendance'>
-                <AttendButton attenders={attenders} userId={props.userData.id} handleAttend={props.handleAttend} />
+                <AttendButton attenders={attenders} userId={props.userData._id} handleAttend={props.handleAttend} />
                 <div>
                     {/* Here is going to be list of attenders */}
                 </div>
