@@ -91,9 +91,7 @@ export const createEvent = (data, props) => dispatch => { // TODO: ADD RESPONSE 
       dispatch(openSuccessSnackBar('Successfully added'));
       props.history.push('/');
     })
-    .catch(error => {
-      dispatch(openErrorSnackBar(error.response.data.message))
-    });
+    .catch(error => dispatch(openErrorSnackBar(error.response.data.message)));
 };
 
 export const attendEvent = (id) => dispatch => {
@@ -102,9 +100,7 @@ export const attendEvent = (id) => dispatch => {
             dispatch({type: TYPE.ATTEND_EVENT, payload: response.data});
             dispatch(openSuccessSnackBar('You was marked as an attendee'));
         })
-        .catch(error => {
-            dispatch(openErrorSnackBar(error.response.data.message))
-        })
+        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
 };
 
 export const cancelAttendEvent = (id) => dispatch => {
@@ -113,21 +109,15 @@ export const cancelAttendEvent = (id) => dispatch => {
             dispatch({type: TYPE.CANCEL_ATTEND_EVENT, payload: response.data});
             dispatch(openSuccessSnackBar('You successfully canceled your attendance :('));
         })
-        .catch(error => {
-            dispatch(openErrorSnackBar(error.response.data.message))
-        })
+        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
 };
 
 // User actions
 
 export const getUserInfo = () => dispatch => {
     getUserInfoApi()
-        .then(response => {
-            dispatch({type: TYPE.GET_USER_INFO, payload: response.data});
-        })
-        .catch(error => {
-            dispatch(openErrorSnackBar(error.response.data.message))
-        })
+        .then(response => dispatch({type: TYPE.GET_USER_INFO, payload: response.data}))
+        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
 };
 
 // Profile actions
@@ -139,9 +129,7 @@ export const changeUserPassword = (data, handleClick) => dispatch => {
             dispatch(openSuccessSnackBar(response.data.message));
             handleClick();
         })
-        .catch(error => {
-            dispatch(openErrorSnackBar(error.response.data.message))
-        })
+        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
 };
 
 export const changeUserEmail = (data, handleClick) => dispatch => {
@@ -153,7 +141,15 @@ export const changeUserEmail = (data, handleClick) => dispatch => {
             dispatch(getUserInfo());
             handleClick();
         })
-        .catch(error => {
-            dispatch(openErrorSnackBar(error.response.data.message))
-        })
+        .catch(error => dispatch(openErrorSnackBar(error.response.data.message)))
 };
+
+// Loader actions
+
+export const setLoading = () => ({
+    type: TYPE.SET_LOADING,
+});
+
+export const setUnloading = () => ({
+    type: TYPE.SET_UNLOADING,
+});
