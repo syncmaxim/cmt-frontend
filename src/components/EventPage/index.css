@@ -75,4 +75,14 @@
     padding: 10px 0;
 }
 
+.attenders-list-block {
+    padding: 10px 0;
+}
+
+.attender-badge {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
 
