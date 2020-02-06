@@ -25,3 +25,8 @@ export const GET_USER_INFO = 'GET_USER_INFO';
 
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';
+
+// Preloader
+
+export const SET_LOADING = 'SET_LOADING';
+export const SET_UNLOADING = 'SET_UNLOADING';
